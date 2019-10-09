@@ -12,6 +12,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.KeyEvent;
 import android.view.View;
 
@@ -19,6 +21,7 @@ import com.base.gyh.baselib.R;
 import com.base.gyh.baselib.broadcast.NetBroadcastReceiver;
 import com.base.gyh.baselib.utils.ActivityUtil;
 import com.base.gyh.baselib.utils.NetworkUtil;
+import com.base.gyh.baselib.utils.RlvMangerUtil;
 import com.base.gyh.baselib.widgets.dialog.pop.LoadingPop;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
@@ -92,6 +95,15 @@ public abstract class SupportActivity extends RxAppCompatActivity implements Net
             }
         }
 
+    }
+    public LinearLayoutManager getLinearLayoutManger(){
+        return RlvMangerUtil.getInstance().getLinearLayoutManager(this);
+    }
+    public LinearLayoutManager getHorLinearLayoutManager(){
+        return RlvMangerUtil.getInstance().getHorLinearLayoutManager(this);
+    }
+    public GridLayoutManager getGridLayoutManager(int spanCount){
+        return RlvMangerUtil.getInstance().getGridLayoutManager(this,spanCount);
     }
 
     protected void startActivity(Class<? extends Activity> zClass) {

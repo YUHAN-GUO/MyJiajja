@@ -89,5 +89,8 @@ dependencies {
     //LoadingAnim
     api 'com.example.mzy.indicators:LoadingAnimations:1.0.3'
     api 'com.zyao89:zloading:1.2.0'
+    // 流式布局
+    api 'com.google.android:flexbox:1.0.0'
+
 }
 

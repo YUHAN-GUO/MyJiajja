@@ -9,6 +9,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import android.widget.LinearLayout;
 
 import com.base.gyh.baselib.R;
 import com.base.gyh.baselib.annotation.StateType;
+import com.base.gyh.baselib.utils.RlvMangerUtil;
 import com.base.gyh.baselib.widgets.dialog.pop.LoadingPop;
 import com.base.gyh.baselib.widgets.netstatae.NetStateLayout;
 import com.base.gyh.baselib.widgets.view.MyToolbar;
@@ -75,7 +78,14 @@ public abstract class SupportFragment extends RxFragment {
         loadingPop.toggle();
     }
 
+    public LinearLayoutManager getLinearLayoutManger() {
+        return RlvMangerUtil.getInstance().getLinearLayoutManager(getActivity());
+    }
 
+    public GridLayoutManager getGridLayoutManager(int spanCount) {
+        return RlvMangerUtil.getInstance().getGridLayoutManager(getActivity(), spanCount);
+
+    }
 
 
     @Override

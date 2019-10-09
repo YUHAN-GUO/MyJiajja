@@ -1,27 +1,25 @@
 package com.think.guoyh.base;
 
-import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 
 import com.base.gyh.baselib.base.SupportActivity;
 import com.base.gyh.baselib.utils.StatusBarUtilTextColor;
 import com.jaeger.library.StatusBarUtil;
-import com.think.guoyh.R;
-
 
 /**
- * Created by GUO_YH on 2019/9/18 09:32
- * 根据项目需求 对一些操作统一管理
+ *  与1 的区别：没有状态栏需要自己隔出距离 用于 顶部为ImageView 的Activity
  */
-public class MyBaseActivity extends SupportActivity {
+public class MyBaseActivity2 extends SupportActivity {
     @Override
     public void setContentView(int layoutResID) {
         super.setContentView(layoutResID);
         setStatusBar();
     }
-
     public void setStatusBar() {
         //true 为黑色
-        StatusBarUtilTextColor.setStatusBarMode(this, true);
-        StatusBarUtil.setColorNoTranslucent(this, ContextCompat.getColor(this, R.color.color_blue));
+        StatusBarUtilTextColor.setStatusBarMode(this, false);
+        StatusBarUtil.setTranslucentForImageView(this, 0,null);
     }
+
 }
