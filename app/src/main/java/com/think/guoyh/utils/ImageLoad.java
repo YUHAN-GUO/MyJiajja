@@ -15,6 +15,5 @@ public class ImageLoad {
     }
     public static void load(Context mContext, String path, ImageView img){
         Glide.with(mContext).load(path).transition(DrawableTransitionOptions.withCrossFade()).into(img);
-
     }
 }

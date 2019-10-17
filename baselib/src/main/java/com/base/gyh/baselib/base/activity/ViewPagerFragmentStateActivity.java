@@ -28,6 +28,12 @@ public abstract class ViewPagerFragmentStateActivity extends SupportActivity {
     protected int[] mIcon2 = new int[6];
     protected TabMenu mTabMenu;
     protected ScrollViewPager mViewPager;
+    private Boolean isCanSroll = false;
+
+    public void setCanSroll(Boolean canSroll) {
+        isCanSroll = canSroll;
+        mViewPager.setScanScroll(isCanSroll);
+    }
 
     protected List<FT> mFTs = new ArrayList<>();
 
@@ -59,7 +65,7 @@ public abstract class ViewPagerFragmentStateActivity extends SupportActivity {
                 }
             }
         });
-            mViewPager.setScanScroll(false);
+        mViewPager.setScanScroll(isCanSroll);
         initData();
     }
 
