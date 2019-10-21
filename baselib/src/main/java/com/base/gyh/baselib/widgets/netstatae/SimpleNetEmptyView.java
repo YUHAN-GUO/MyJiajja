@@ -6,9 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.base.gyh.baselib.R;
-import com.base.gyh.baselib.base.BaseApplication;
 
-import me.linkaipeng.autosp.AppConfigSpSP;
 
 /**
  * Created by GUOYH on 2019/6/15.

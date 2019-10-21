@@ -71,9 +71,6 @@ dependencies {
     api 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-14'
     //沉浸式
     api 'com.jaeger.statusbarutil:library:1.5.1'
-    //SharePrefense
-    api 'me.linkaipeng:autoSPAnnotation:1.0.0'
-    annotationProcessor 'me.linkaipeng:autoSPCompiler:1.0.0'
     //万能适配器
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
     //消息传递

@@ -21,7 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 import com.think.guoyh.R;
-import com.think.guoyh.utils.BitmapUtil;
+import com.base.gyh.baselib.utils.BitmapUtil;
 import com.think.guoyh.utils.HeardSelecterUtil;
 import com.think.guoyh.utils.SDCardUtils;
 import com.think.guoyh.widget.pop.center.SetHeardPop;

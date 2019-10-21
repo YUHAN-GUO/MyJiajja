@@ -19,10 +19,10 @@ import com.base.gyh.baselib.widgets.netstatae.SimpleNetLoadingView;
 import com.base.gyh.baselib.widgets.view.MyToolbar;
 import com.jaeger.library.StatusBarUtil;
 
-import static com.base.gyh.baselib.annotation.Constant.StateType.EMPTY;
-import static com.base.gyh.baselib.annotation.Constant.StateType.ERROR;
-import static com.base.gyh.baselib.annotation.Constant.StateType.LOADING;
-import static com.base.gyh.baselib.annotation.Constant.StateType.NORMAL;
+import static com.base.gyh.baselib.annotation.StateType.EMPTY;
+import static com.base.gyh.baselib.annotation.StateType.ERROR;
+import static com.base.gyh.baselib.annotation.StateType.LOADING;
+import static com.base.gyh.baselib.annotation.StateType.NORMAL;
 
 /*
  * created by taofu on 2018/11/28

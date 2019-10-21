@@ -1,5 +1,6 @@
-package com.think.guoyh.utils;
+package com.base.gyh.baselib.utils;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -129,5 +130,14 @@ public class BitmapUtil {
             inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
         }
         return inSampleSize;
+    }
+    /**
+     * 通过资源ID获取Bitmap
+     * @param res
+     * @param resId
+     * @return
+     */
+    public static Bitmap getBitmap(Resources res, int resId) {
+        return BitmapFactory.decodeResource(res, resId);
     }
 }

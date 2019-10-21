@@ -22,10 +22,10 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.trello.rxlifecycle2.components.support.RxFragment;
 import java.util.List;
-import static com.base.gyh.baselib.annotation.Constant.StateType.EMPTY;
-import static com.base.gyh.baselib.annotation.Constant.StateType.ERROR;
-import static com.base.gyh.baselib.annotation.Constant.StateType.LOADING;
-import static com.base.gyh.baselib.annotation.Constant.StateType.NORMAL;
+import static com.base.gyh.baselib.annotation.StateType.EMPTY;
+import static com.base.gyh.baselib.annotation.StateType.ERROR;
+import static com.base.gyh.baselib.annotation.StateType.LOADING;
+import static com.base.gyh.baselib.annotation.StateType.NORMAL;
 
 /*
  * created by taofu on 2018/11/28

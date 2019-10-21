@@ -95,4 +95,9 @@
         <attr name="swipeAble" format="boolean" />
         <attr name="closeOnClick" format="boolean" />
     </declare-styleable>
+
+
+    <declare-styleable name="viewpagergallery">
+        <attr name="isShadow" format="boolean"/>
+    </declare-styleable>
 </resources>
