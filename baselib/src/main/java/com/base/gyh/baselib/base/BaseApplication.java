@@ -2,6 +2,8 @@ package com.base.gyh.baselib.base;
 
 import android.app.Application;
 import android.content.Context;
+
+import com.base.gyh.baselib.utils.Utils;
 import com.jeremyliao.liveeventbus.LiveEventBus;
 
 
@@ -20,6 +22,7 @@ public class BaseApplication extends Application {
         super.onCreate();
         context = getApplicationContext();
         //
+        Utils.init(this);
         //LiveEvent配置
         LiveEventBus.get()
                 .config()

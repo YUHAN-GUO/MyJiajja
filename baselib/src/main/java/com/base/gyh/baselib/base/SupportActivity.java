@@ -19,6 +19,7 @@ import android.view.View;
 
 import com.base.gyh.baselib.R;
 import com.base.gyh.baselib.broadcast.NetBroadcastReceiver;
+import com.base.gyh.baselib.data.remote.okhttp.OkHttpUtils;
 import com.base.gyh.baselib.utils.ActivityUtil;
 import com.base.gyh.baselib.utils.NetworkUtil;
 import com.base.gyh.baselib.utils.RlvMangerUtil;
@@ -237,6 +238,7 @@ public abstract class SupportActivity extends RxAppCompatActivity implements Net
         // 移除Activity
         ActivityUtil.getInstance().removeActivity(this);
         NetBroadcastReceiver.unregisterReceiver(this);//网络变化
+        OkHttpUtils.getInstance().cancleOkhttpTag(this.getClass().toString());
         super.onDestroy();
     }
 }

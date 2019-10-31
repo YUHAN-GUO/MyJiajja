@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 
 import com.base.gyh.baselib.R;
 import com.base.gyh.baselib.annotation.StateType;
+import com.base.gyh.baselib.data.remote.okhttp.OkHttpUtils;
 import com.base.gyh.baselib.utils.RlvMangerUtil;
 import com.base.gyh.baselib.widgets.dialog.pop.LoadingPop;
 import com.base.gyh.baselib.widgets.netstatae.NetStateLayout;
@@ -240,4 +241,10 @@ public abstract class SupportFragment extends RxFragment {
         mBaseStateActivity = null;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        OkHttpUtils.getInstance().cancleOkhttpTag(this.getClass().toString());
+
+    }
 }

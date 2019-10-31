@@ -5,6 +5,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.TextUtils;
 
+import com.base.gyh.baselib.base.BaseApplication;
+
 /**
  * Created by GUOYH on 2018/10/29.
  */
@@ -18,6 +20,14 @@ public class NetworkUtil {
      */
     public static boolean isNetworkConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = null;
+        if (cm != null) {
+            ni = cm.getActiveNetworkInfo();
+        }
+        return ni != null && ni.isConnectedOrConnecting();
+    }
+    public static boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) BaseApplication.getContext().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = null;
         if (cm != null) {
             ni = cm.getActiveNetworkInfo();

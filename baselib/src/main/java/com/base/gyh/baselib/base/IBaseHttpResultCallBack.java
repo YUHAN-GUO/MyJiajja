@@ -6,5 +6,4 @@ package com.base.gyh.baselib.base;
 public interface IBaseHttpResultCallBack<T> {
     void onSuccess(T data);
     void onError(Throwable e);
-
 }
