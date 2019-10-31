@@ -24,7 +24,7 @@ public class ModelSuperImpl extends ModelBase {
     private static final String getUrl = "https://wanandroid.com/wxarticle/chapters/json";
     private static final String postUrl = "https://www.wanandroid.com/project/tree/json";
     public static final String QQ_APK = "https://imtt.dd.qq.com/16891/apk/06AB1F5B0A51BEFD859B2B0D6B9ED9D9.apk?fsname=com.tencent.mobileqq_8.1.0_1232.apk&csr=1bbd";
-    public static final String UPLOAD_PIC = "";
+    public static final String UPLOAD_PIC = "https://uat-service.juranguanjia.com/api/file/upload";
     private static final ModelSuperImpl ourInstance = new ModelSuperImpl();
     private Context finalContext;
     public static ModelSuperImpl netWork() {
@@ -55,21 +55,22 @@ public class ModelSuperImpl extends ModelBase {
         sendOkHttpDownload(paramsBuilder, onDownloadListener);
     }
 
-
     //不同file 不同key
     public void uploadPic(ParamsBuilder paramsBuilder, NetWorkListener netWorkListener, Pair<String, File>... files) {
-        paramsBuilder.url(UPLOAD_PIC)
+        paramsBuilder.url(UPLOAD_PIC);
 //                .type(new TypeToken<ResponModel<String>>() {
 //                }.getType())
-        ;
+
+        sendOkHttpUpload(paramsBuilder, netWorkListener, files);
     }
 
     //同一key 不同file
     public void uploadPic(ParamsBuilder paramsBuilder, NetWorkListener netWorkListener, String key, ArrayList<File> files) {
-         paramsBuilder.url(UPLOAD_PIC)
+        paramsBuilder.url(UPLOAD_PIC);
 //                .type(new TypeToken<ResponModel<String>>() {
 //                }.getType())
-        ;
+
+        sendOkHttpUpload(paramsBuilder, netWorkListener, key, files);
     }
 
     private<T> ResultMyCall getResultMyCall(ParamsBuilder paramsBuilder,IBaseHttpResultCallBack<T> callBack,Class<T> zClass){
@@ -109,13 +110,13 @@ public class ModelSuperImpl extends ModelBase {
             }
 
             @Override
-            public void onSuccess(String response) {
+            public void onSuccess(Object response) {
                 super.onSuccess(response);
                if (zClass==null){
                    callBack.onSuccess((T) response);
                }else{
                    Gson gson = new Gson();
-                   T bean = gson.fromJson(response, zClass);
+                   T bean = gson.fromJson((String) response, zClass);
                    callBack.onSuccess(bean);
                }
                Logger.d("%s+++++++++++%s","guoyh",response);

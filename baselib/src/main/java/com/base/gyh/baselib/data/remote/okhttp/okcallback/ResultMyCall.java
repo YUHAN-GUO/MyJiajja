@@ -2,6 +2,7 @@ package com.base.gyh.baselib.data.remote.okhttp.okcallback;
 
 import com.base.gyh.baselib.utils.mylog.Logger;
 import com.google.gson.internal.$Gson$Types;
+import com.just.agentweb.LogUtils;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -35,8 +36,8 @@ public abstract class ResultMyCall {
 //        ToastUtils.showToast(errorMessage);
     }
 
-    public void onSuccess(String response) {
-
+    public void onSuccess(Object response) {
+        LogUtils.i("封装网络请求", "请求成功 ===>> ");
     }
 
 

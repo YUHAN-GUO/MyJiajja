@@ -3,17 +3,27 @@ package com.base.gyh.baselib.data.remote.okhttp;
 
 import android.content.Context;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Pair;
 
 import com.base.gyh.baselib.base.IBaseHttpResultCallBack;
+import com.base.gyh.baselib.data.bean.NetFailBean;
 import com.base.gyh.baselib.data.bean.ParamsBuilder;
 import com.base.gyh.baselib.data.remote.okhttp.okcallback.NetWorkListener;
 import com.base.gyh.baselib.data.remote.okhttp.okcallback.OnDownloadListener;
+import com.base.gyh.baselib.data.remote.okhttp.okcallback.ResultCall;
 import com.base.gyh.baselib.data.remote.okhttp.okcallback.ResultMyCall;
+import com.base.gyh.baselib.utils.GsonUtil;
 import com.base.gyh.baselib.utils.mylog.Logger;
 import com.base.gyh.baselib.widgets.dialog.pop.LoadingPop;
+import com.just.agentweb.LogUtils;
 
+import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,41 +43,6 @@ import okhttp3.Response;
 public class ModelBase {
 
 
-    //        OkHttpClient okHttpClient = OkHttpUtils.getInstance().getOkHttpClient();
-//        Handler handler = OkHttpUtils.getInstance().getmDelivery();
-//        FormBody.Builder form = new FormBody.Builder();//表单对象，包含以input开始的对象,以html表单为主
-//        if (!params.isEmpty()) {
-//            for (Map.Entry<String, String> entry : params.entrySet()) {
-//                Logger.d("%s+++++++++++++%s", "guoyuhan", entry.getKey() + "-----------" + entry.getValue());
-//                form.add(entry.getKey(), entry.getValue());
-//            }
-//        }
-//        RequestBody body = form.build();
-//        Request okHttpRequest = new Request.Builder().url(url).post(body).build();//采用post提交数据
-//        okHttpClient.newCall(okHttpRequest).enqueue(new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                handler.post(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Logger.d("%s++++++++++++%s", "guoyuhan", e.getMessage());
-//                    }
-//                });
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                String s = response.body().string();
-//                handler.post(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Logger.d("%s++++++++++++%s", "guoyuhan", s);
-//                    }
-//                });
-//            }
-//        });
-
-
     //okhttp get请求
     public void sendOkHttpGet(final ParamsBuilder paramsBuilder, final ResultMyCall callBack) {
         Logger.d("%s++++++++++%s", "guoyh", "---------------------");
@@ -85,6 +60,7 @@ public class ModelBase {
         }
         OkHttpUtils.getInstance().post().url(url).params(paramsBuilder.getParams()).build().enqueue(callBack);
     }
+
     public void sendOkHttpDownload(ParamsBuilder paramsBuilder, OnDownloadListener onDownloadListener) {
         String tag = paramsBuilder.getTag();
         if (TextUtils.isEmpty(tag)) {
@@ -99,4 +75,72 @@ public class ModelBase {
                 .build()
                 .enqueue(onDownloadListener);
     }
+
+    //同一key，多个file
+    public void sendOkHttpUpload(ParamsBuilder paramsBuilder, NetWorkListener netWorkListener, String key, ArrayList<File> files) {
+        Pair<String, File>[] arr = new Pair[files.size()];
+        for (int i = 0; i < files.size(); i++) {
+            arr[i] = new Pair<>(key, files.get(i));
+        }
+        sendOkHttpUpload(paramsBuilder, netWorkListener, arr);
+    }
+
+
+    //okhttp 上传文件;不同file不同key
+    public void sendOkHttpUpload(final ParamsBuilder paramsBuilder, final NetWorkListener netWorkListener, Pair<String, File>... files) {
+
+        String tag = paramsBuilder.getTag();
+        if (TextUtils.isEmpty(tag)) {
+            //不设置tag，默认用类路径名。
+            tag = netWorkListener.getClass().toString();
+        }
+        OkHttpUtils.upload()
+                .url(paramsBuilder.getUrl())
+                .tag(tag)
+                .files(files)
+                .params(paramsBuilder.getParams())
+                //默认同时多次请求一个接口 只请求一次
+                .onlyOneNet(paramsBuilder.isOnlyOneNet())
+                //默认不重连
+                .tryAgainCount(paramsBuilder.getTryAgainCount())
+                .build()
+                .enqueue(new ResultCall() {
+                    @Override
+                    public void onBefore() {
+                        Logger.d("%s+++++++++++++++%s", "guoyh", "upLoadOnBefore");
+                    }
+
+                    @Override
+                    public void onAfter() {
+                        Logger.d("%s+++++++++++++++%s", "guoyh", "upLoadOnAfter");
+
+                    }
+
+                    @Override
+                    public void onError(String message) {
+//                        if (paramsBuilder.isOverrideError()) {
+//                            NetFailBean errorBean = new NetFailBean(message);
+//                            netWorkListener.onNetCallBack(paramsBuilder.getCommand(), errorBean);
+//                        } else {
+//                            // 不重写那么只弹提示
+//                            ToastUtils.showToast(message);
+//                        }
+                        Logger.d("%s+++++++++++++++%s", "guoyh", "upLoadError" + message);
+
+                    }
+
+                    @Override
+                    public void inProgress(float progress) {
+                        int persent = (int) (progress * 100);
+                        Logger.d("%s+++++++++++++++%s", "guoyh", "upLoadInProgress" + persent);
+
+                    }
+
+                    @Override
+                    public void onSuccess(final String response) {
+                        Logger.d("%s+++++++++++%s", "guoyh", response);
+                    }
+                });
+    }
+
 }

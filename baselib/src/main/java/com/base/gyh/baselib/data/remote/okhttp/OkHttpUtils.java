@@ -9,6 +9,7 @@ import com.base.gyh.baselib.data.remote.okhttp.Interceptor.OfflineCacheIntercept
 import com.base.gyh.baselib.data.remote.okhttp.builder.OkDownloadBuilder;
 import com.base.gyh.baselib.data.remote.okhttp.builder.OkGetBuilder;
 import com.base.gyh.baselib.data.remote.okhttp.builder.OkPostBuilder;
+import com.base.gyh.baselib.data.remote.okhttp.builder.OkUploadBuilder;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -86,6 +87,9 @@ public class OkHttpUtils {
     }
     public OkDownloadBuilder download(){
         return new OkDownloadBuilder();
+    }
+    public static OkUploadBuilder upload(){
+        return  new OkUploadBuilder();
     }
 
 
