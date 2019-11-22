@@ -1,6 +1,7 @@
 package com.base.gyh.baselib.widgets.view;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
@@ -14,6 +15,8 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+
+import com.base.gyh.baselib.R;
 
 
 /**
@@ -43,20 +46,22 @@ public class ZQImageViewRoundOval extends AppCompatImageView {
     public static final int TYPE_CIRCLE = 0;//圆形
     public static final int TYPE_ROUND = 1;//圆角矩形
     public static final int TYPE_OVAL = 2;//椭圆形
-    public static final int DEFAUT_ROUND_RADIUS = 10;//默认圆角大小
+//    public static final int DEFAUT_ROUND_RADIUS = 10;//默认圆角大小
 
     public ZQImageViewRoundOval(Context context) {
         this(context, null);
-        // TODOAuto-generated constructor stub
     }
 
     public ZQImageViewRoundOval(Context context, AttributeSet attrs) {
         this(context,attrs, 0);
-        // TODOAuto-generated constructor stub
     }
 
     public ZQImageViewRoundOval(Context context, AttributeSet attrs, int defStyle){
         super(context,attrs, defStyle);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ZQImageViewRoundOval);
+        mType = typedArray.getInteger(R.styleable.ZQImageViewRoundOval_ImageType, -1);
+        mRoundRadius = typedArray.getDimensionPixelSize(R.styleable.ZQImageViewRoundOval_roundRadios, 0);
+        typedArray.recycle();
         initView();
     }
 
@@ -64,12 +69,11 @@ public class ZQImageViewRoundOval extends AppCompatImageView {
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mMatrix = new Matrix();
-        mRoundRadius = DEFAUT_ROUND_RADIUS;
+//        mRoundRadius = DEFAUT_ROUND_RADIUS;
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec,int heightMeasureSpec) {
-        // TODOAuto-generated method stub
         super.onMeasure(widthMeasureSpec,heightMeasureSpec);
         // 如果是绘制圆形，则强制宽高大小一致
         if (mType ==TYPE_CIRCLE) {
@@ -82,7 +86,6 @@ public class ZQImageViewRoundOval extends AppCompatImageView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-
         if (null ==getDrawable()) {
             return;
         }

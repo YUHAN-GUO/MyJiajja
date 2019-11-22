@@ -98,6 +98,26 @@ public class PermissUtils {
                         callBack.onFail();
                     }
                 });
+    } /**
+     * 相机 和读写 权限
+     *     <uses-permission android:name="android.permission.CAMERA"/>
+     */
+    public static void cameraAndReadPermiss(PermissCallBack callBack) {
+        SoulPermission.getInstance().checkAndRequestPermissions(
+                Permissions.build(Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA),
+                new CheckRequestPermissionAdapter() {
+                    @Override
+                    public void onAllPermissionOk(Permission[] allPermissions) {
+                        callBack.onSuccess();
+                    }
+
+                    @Override
+                    public void onPermissionDenied(Permission[] refusedPermissions) {
+                        callBack.onFail();
+                    }
+                });
     }
     /**
      * 信息权限

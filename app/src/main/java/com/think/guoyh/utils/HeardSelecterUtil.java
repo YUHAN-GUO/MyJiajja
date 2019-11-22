@@ -11,6 +11,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 
+import com.think.guoyh.BuildConfig;
+
 import java.io.File;
 
 /**
@@ -49,7 +51,8 @@ public class HeardSelecterUtil {
             File pictureFile = new File(savePath, IMAGE_FILE_NAME);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                pictureUri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileProvider", pictureFile);
+                pictureUri = FileProvider.getUriForFile(context.getApplicationContext(), BuildConfig.APPLICATION_ID+".provider",pictureFile);
+//                pictureUri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileProvider", pictureFile);
             } else {
                 intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);

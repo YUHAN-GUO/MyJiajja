@@ -125,3 +125,87 @@ public class ModelSuperImpl extends ModelBase {
     }
 
 }
+/* 下载示例
+   private String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/ok_down/demo/";
+    private String fileName = "easyOk.apk";
+    //暂停下载
+    OkHttpUtils.getInstance().cancleOkhttpTag("downApk");
+
+
+        ModelSuperImpl.netWork().downApk(ParamsBuilder.build().path(path)
+                .fileName(fileName).tag("downApk").resume(true), new OnDownloadListener() {
+            @Override
+            public void onDownloadSuccess(File file) {
+                Logger.d("%s+++++++++++%s", "guoyh", "下载完成");
+            }
+
+            @Override
+            public void onDownLoadTotal(long total) {
+                holder.toal.setText(MathUtils.round((double) total / 1024 / 1024, 2) + "M");
+                BaseSP.getInstance().setTotal(total);
+            }
+
+
+            @Override
+            public void onDownloading(int progress) {
+                Logger.d("%s++++++++++%s", "guoyh", progress);
+                File file = new File(path, fileName);
+                holder.apkInfo.setText("文件路径 ==> " + file.getAbsolutePath() + "\n" + "目前文件大小 ==> " + MathUtils.round((double) file.length() / 1024 / 1024, 2) + "M");
+                holder.progressBar.setProgress(progress);
+            }
+
+            @Override
+            public void onDownloadFailed(Exception e) {
+
+            }
+        });
+
+*/
+/*
+    GET POST 请求
+            ModelSuperImpl.netWork().gankGet(ParamsBuilder.build().fragment(this), new IBaseHttpResultCallBack<String>() {
+            @Override
+            public void onSuccess(String data) {
+                Logger.d("%s++++++++++++++%s","guoyh1",data);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Logger.d("%s++++++++++++%s","guoyh1",e.getMessage());
+            }
+        });
+
+        ModelSuperImpl.netWork().gankPost(ParamsBuilder.build().fragment(this),new IBaseHttpResultCallBack<String>(){
+            @Override
+            public void onSuccess(String data) {
+                Logger.d("%s+++++++++++++%s","guoyuhan",data);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Logger.d("%s++++++++++++%s","guoyuhan",e.getMessage());
+            }
+        });
+ */
+/*
+    //打开文件
+    //这是打开文件的方式，并不是正确的安装apk。。
+    public void openAndroidFile(File file) {
+        if (!file.exists()) {
+            Toast.makeText(getActivity(), "文件不存在", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent();
+        // 这是比较流氓的方法，绕过7.0的文件权限检查
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+            StrictMode.setVmPolicy(builder.build());
+        }
+
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//设置标记
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setAction(Intent.ACTION_VIEW);//动作，查看ACTION_VIEW
+        intent.setDataAndType(Uri.fromFile(file), OpenFileUtils.getMIMEType(file));//设置类型OpenFileUtils.getMIMEType(file)
+        startActivity(intent);
+    }
+* */

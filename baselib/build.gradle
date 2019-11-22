@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-apply from :'versions.gradle'
+apply from: 'versions.gradle'
 // BaseUrl
 def BASE_URL = "https://www.wanandroid.com"
 android {
@@ -88,6 +88,7 @@ dependencies {
     api 'com.zyao89:zloading:1.2.0'
     // 流式布局
     api 'com.google.android:flexbox:1.0.0'
-
+    //汉字转拼音
+    api 'com.belerweb:pinyin4j:2.5.1'
 }
 

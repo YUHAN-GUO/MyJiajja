@@ -100,4 +100,11 @@
     <declare-styleable name="viewpagergallery">
         <attr name="isShadow" format="boolean"/>
     </declare-styleable>
+    <declare-styleable name="ZQImageViewRoundOval">
+        <attr name="ImageType">
+            <enum name="circle" value="0" />
+            <enum name="round" value="1" />
+        </attr>
+        <attr name="roundRadios" format="dimension"/>
+    </declare-styleable>
 </resources>

@@ -58,7 +58,6 @@ public class MineFragment extends StateFragment {
     @Override
     protected void initView(View view) {
         holder = new ViewHolder(view);
-        holder.mine_heard.setType(ZQImageViewRoundOval.TYPE_CIRCLE);
     }
 
     @Override
@@ -78,7 +77,7 @@ public class MineFragment extends StateFragment {
                         @Override
                         public void carm() {
                             //调用相机拍照的方法
-                            checkCameraPermiss();
+                            cameraAndReadPermiss();
 
                         }
 
@@ -106,13 +105,10 @@ public class MineFragment extends StateFragment {
 
             case CODE_CAMERA_REQUEST:
                 if (SDCardUtils.hasSdcard()) {
-                    File tempFile = new File(
-                            Environment.getExternalStorageDirectory(),
-                            HeardSelecterUtil.IMAGE_FILE_NAME);
+                    File tempFile = new File(Environment.getExternalStorageDirectory(), HeardSelecterUtil.IMAGE_FILE_NAME);
                     cropRawPhoto(HeardSelecterUtil.getImageContentUri(tempFile,getActivity()));
                 } else {
-                    Toast.makeText(getActivity(), "没有SDCard!", Toast.LENGTH_LONG)
-                            .show();
+                    Toast.makeText(getActivity(), "没有SDCard!", Toast.LENGTH_LONG).show();
                 }
 
                 break;
@@ -173,18 +169,17 @@ public class MineFragment extends StateFragment {
     }
 
 
-    private void checkCameraPermiss() {
-        PermissUtils.cameraPermiss(new PermissUtils.PermissCallBack() {
+    private void cameraAndReadPermiss() {
+        PermissUtils.cameraAndReadPermiss(new PermissUtils.PermissCallBack() {
             @Override
             public void onSuccess() {
                 toCamera();
-                Toast.makeText(getContext(), "相机权限获取成功", Toast.LENGTH_SHORT).show();
 
             }
 
             @Override
             public void onFail() {
-                Toast.makeText(getContext(), "相机权限获取失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "权限获取失败", Toast.LENGTH_SHORT).show();
 
             }
         });
