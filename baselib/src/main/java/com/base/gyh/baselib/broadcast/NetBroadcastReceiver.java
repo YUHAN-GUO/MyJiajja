@@ -7,7 +7,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
 
-import com.base.gyh.baselib.base.StateActivity;
+import com.base.gyh.baselib.base.activity.StateActivity;
 import com.base.gyh.baselib.utils.NetworkUtil;
 
 

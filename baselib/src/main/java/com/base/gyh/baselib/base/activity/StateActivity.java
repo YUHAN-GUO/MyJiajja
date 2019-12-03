@@ -1,4 +1,4 @@
-package com.base.gyh.baselib.base;
+package com.base.gyh.baselib.base.activity;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -119,7 +119,18 @@ public abstract class StateActivity extends SupportActivity implements NetBroadc
             myToolbar.setVisibility(View.GONE);
         }
     }
-
+    /**
+     * 更改布局状态
+     */
+    protected void showEmpty(){
+        changePageState(EMPTY);
+    }
+    protected void showError(){
+        changePageState(ERROR);
+    }
+    protected void showNormal(){
+        changePageState(NORMAL);
+    }
 
     /**
      * 切换页面的布局

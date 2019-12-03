@@ -6,9 +6,6 @@ import android.support.v4.app.Fragment;
 
 import com.base.gyh.baselib.R;
 import com.base.gyh.baselib.adapter.vpager.MyFragmentVPAdapter;
-import com.base.gyh.baselib.base.StateActivity;
-import com.base.gyh.baselib.base.SupportActivity;
-import com.base.gyh.baselib.utils.mylog.Logger;
 import com.base.gyh.baselib.widgets.ScrollViewPager;
 import com.base.gyh.baselib.widgets.TabMenu;
 
@@ -28,11 +25,11 @@ public abstract class ViewPagerFragmentStateActivity extends SupportActivity {
     protected int[] mIcon2 = new int[6];
     protected TabMenu mTabMenu;
     protected ScrollViewPager mViewPager;
-    private Boolean isCanSroll = false;
 
-    public void setCanSroll(Boolean canSroll) {
-        isCanSroll = canSroll;
-        mViewPager.setScanScroll(isCanSroll);
+    public void setViewPagerPosition(int position){
+        if (mViewPager!=null&&mFragmentList.size()>position){
+            mViewPager.setCurrentItem(position);
+        }
     }
 
     protected List<FT> mFTs = new ArrayList<>();
@@ -57,6 +54,7 @@ public abstract class ViewPagerFragmentStateActivity extends SupportActivity {
         setContentView(R.layout.activity_pager_fragment);
         mViewPager = (ScrollViewPager) findViewById(R.id.viewPager);
         mTabMenu = (TabMenu) findViewById(R.id.tabMenu);
+        setSelecterTvColor(mTabMenu);
         mTabMenu.setmSelecterListener(new TabMenu.onSelecterListener() {
             @Override
             public void onSelecter(int pos) {
@@ -65,7 +63,7 @@ public abstract class ViewPagerFragmentStateActivity extends SupportActivity {
                 }
             }
         });
-        mViewPager.setScanScroll(isCanSroll);
+        mViewPager.setScanScroll(false);
         initData();
     }
 
@@ -101,9 +99,7 @@ public abstract class ViewPagerFragmentStateActivity extends SupportActivity {
             mTabMenu.change(which);
 
         int moPos = initMpos();
-
         mTabMenu.change(moPos);
-        Logger.dd(moPos);
         mTabMenu.setMoPage(moPos);
     }
 
@@ -122,10 +118,6 @@ public abstract class ViewPagerFragmentStateActivity extends SupportActivity {
         void isSelceter(int pos);
     }
     protected abstract int initMpos();
+    protected abstract void setSelecterTvColor(TabMenu tvMenu);
 
-//    protected void setMoPage(int pos){
-//        if (mTabMenu!=null){
-//            mTabMenu.setMoPage(pos);
-//        }
-//    }
 }

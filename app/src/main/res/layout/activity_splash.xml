@@ -7,21 +7,17 @@
     android:background="@mipmap/bg_splash"
     android:fitsSystemWindows="true"
     tools:context="com.think.guoyh.ui.activity.SplashActivity">
-    <TextView
+    <com.base.gyh.baselib.widgets.view.CircleProgressTv
         android:id="@+id/jump"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_32"
         android:layout_marginEnd="@dimen/dp_16"
         android:layout_marginRight="16dp"
-        android:background="@drawable/shape_splash_bg"
-        android:paddingLeft="@dimen/dp_8"
-        android:paddingTop="@dimen/dp_4"
-        android:paddingRight="@dimen/dp_8"
-        android:paddingBottom="@dimen/dp_4"
         android:text="跳过"
+        android:textSize="@dimen/sp_12"
+        app:in_circle_color="@color/cp_color_gray_light"
         android:textColor="@color/color_222222"
-        android:textSize="@dimen/sp_15"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

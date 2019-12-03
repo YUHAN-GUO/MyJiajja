@@ -42,8 +42,8 @@ public class ViewPagerGallery extends ViewPager {
     public ViewPagerGallery(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
-        TypedArray typedArray = mContext.obtainStyledAttributes(attrs, R.styleable.viewpagergallery);
-        isShadow = typedArray.getBoolean(R.styleable.viewpagergallery_isShadow, true);
+        TypedArray typedArray = mContext.obtainStyledAttributes(attrs, R.styleable.ViewPagerGallery);
+        isShadow = typedArray.getBoolean(R.styleable.ViewPagerGallery_isShadow, true);
         typedArray.recycle();
     }
 
@@ -57,7 +57,7 @@ public class ViewPagerGallery extends ViewPager {
             mLayoutParams.width = pagerWidth;
         }
         this.setLayoutParams(mLayoutParams);
-        this.setPageMargin(-50);
+//        this.setPageMargin( 0);
         this.setPageTransformer(true, new GalleryTransformer());
         this.setClipChildren(false);
         ViewGroup view = (ViewGroup) this.getParent();
@@ -116,7 +116,7 @@ public class ViewPagerGallery extends ViewPager {
         for (int i = 0; i < imgResources.size(); i++) {
             int id = imgResources.get(i);
             final ImageView imageView = new ImageView(mContext);
-            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(getWidth(),getHeight());
+            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(10,getHeight());
             imageView.setLayoutParams(layoutParams);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 

@@ -5,6 +5,7 @@ import com.base.gyh.baselib.utils.mylog.Logger;
 
 import java.util.List;
 
+import com.base.gyh.baselib.widgets.TabMenu;
 import com.think.guoyh.R;
 import com.think.guoyh.base.MainStateActivity;
 import com.think.guoyh.ui.home.HomeFragment;
@@ -24,5 +25,15 @@ public class MainActivity extends MainStateActivity {
                 Logger.dd(pos);
             }
         });
+    }
+
+    @Override
+    protected int initMpos() {
+        return 1;
+    }
+
+    @Override
+    protected void setSelecterTvColor(TabMenu tvMenu) {
+
     }
 }

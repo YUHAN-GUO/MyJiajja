@@ -4,7 +4,7 @@ package com.think.guoyh.ui.news;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.base.gyh.baselib.base.StateFragment;
+import com.base.gyh.baselib.base.fragment.StateFragment;
 import com.think.guoyh.R;
 
 
@@ -36,6 +36,16 @@ public class NewsFragment extends StateFragment {
 
     @Override
     protected void initListener() {
+
+    }
+
+    @Override
+    public void onEmptyRetryClicked() {
+
+    }
+
+    @Override
+    public void onErrorRetryClicked() {
 
     }
 }

@@ -3,14 +3,13 @@ package com.think.guoyh.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
-import com.base.gyh.baselib.base.SupportActivity;
-import com.jaeger.library.StatusBarUtil;
+import com.base.gyh.baselib.widgets.view.CircleProgressTv;
 
 import com.think.guoyh.R;
+import com.think.guoyh.base.MyBaseActivity;
 
-public class SplashActivity extends SupportActivity {
+public class SplashActivity extends MyBaseActivity {
 
     private boolean isTo = true;
 
@@ -18,11 +17,35 @@ public class SplashActivity extends SupportActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        StatusBarUtil.setTranslucent(this,0);
         initView();
     }
 
-    public void startToMain() {
+    private void initView() {
+        CircleProgressTv jump = (CircleProgressTv) findViewById(R.id.jump);
+        jump.setTimeMillis(5000);
+        jump.setCountdownProgressListener(5, new CircleProgressTv.OnCountdownProgressListener() {
+            @Override
+            public void onProgress(int what, int progress) {
+                if (progress <= 70) {
+                    jump.setClickable(true);
+                } else {
+                    jump.setClickable(false);
+                }
+                if (progress <= 1){
+                    startToMain();
+                }
+            }
+        });
+        jump.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startToMain();
+            }
+        });
+        jump.start();
+    }
+
+    private void startToMain() {
         if(isTo){
             isTo = false;
             Intent intent = new Intent(this, MainActivity.class);
@@ -32,19 +55,8 @@ public class SplashActivity extends SupportActivity {
 
     }
 
-    private void initView() {
-        TextView jump = (TextView) findViewById(R.id.jump);
-        jump.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startToMain();
-            }
-        },3000);
-        jump.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startToMain();
-            }
-        });
+    @Override
+    public boolean isShowStatus() {
+        return true;
     }
 }

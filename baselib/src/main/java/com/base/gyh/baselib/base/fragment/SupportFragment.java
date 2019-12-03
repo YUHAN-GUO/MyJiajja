@@ -1,34 +1,25 @@
-package com.base.gyh.baselib.base;
+package com.base.gyh.baselib.base.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.Toast;
 
-import com.base.gyh.baselib.R;
-import com.base.gyh.baselib.annotation.StateType;
-import com.base.gyh.baselib.data.remote.okhttp.OkHttpUtils;
-import com.base.gyh.baselib.utils.RlvMangerUtil;
+import com.base.gyh.baselib.annotation.LoadType;
+import com.base.gyh.baselib.base.activity.SupportActivity;
+import com.base.gyh.baselib.utils.ButtonUtils;
+import com.base.gyh.baselib.utils.NetworkUtil;
 import com.base.gyh.baselib.widgets.dialog.pop.LoadingPop;
-import com.base.gyh.baselib.widgets.netstatae.NetStateLayout;
-import com.base.gyh.baselib.widgets.view.MyToolbar;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.trello.rxlifecycle2.components.support.RxFragment;
 
 import java.util.List;
-
 
 /*
  * created by taofu on 2018/11/28
@@ -49,7 +40,7 @@ public abstract class SupportFragment extends RxFragment {
      */
     protected boolean isDataInitiated;
     private BasePopupView loadingPop;
-    private StateActivity mBaseStateActivity;
+    private SupportActivity mBaseActivity;
     private FragmentManager mFragmentManager;
 
     /**
@@ -74,14 +65,27 @@ public abstract class SupportFragment extends RxFragment {
         }
         loadingPop.toggle();
     }
-
-    public LinearLayoutManager getLinearLayoutManger() {
-        return RlvMangerUtil.getInstance().getLinearLayoutManager(getActivity());
+    public void showLoading(String title){
+        if (loadingPop == null) {
+            loadingPop = new XPopup.Builder(getContext())
+                    .dismissOnBackPressed(false) // 按返回键是否关闭弹窗，默认为true
+                    .dismissOnTouchOutside(false) // 点击外部是否关闭弹窗，默认为true
+                    .asCustom(new LoadingPop(getContext(),title));
+        }
+        loadingPop.show();
+    }
+    public void showLoading() {
+        showLoading(null);
     }
 
-    public GridLayoutManager getGridLayoutManager(int spanCount) {
-        return RlvMangerUtil.getInstance().getGridLayoutManager(getActivity(), spanCount);
-
+    public void hideLoading() {
+        if (loadingPop == null) {
+            loadingPop = new XPopup.Builder(getContext())
+                    .dismissOnBackPressed(false) // 按返回键是否关闭弹窗，默认为true
+                    .dismissOnTouchOutside(false) // 点击外部是否关闭弹窗，默认为true
+                    .asCustom(new LoadingPop(getContext()));
+        }
+        loadingPop.dismiss();
     }
 
 
@@ -114,6 +118,15 @@ public abstract class SupportFragment extends RxFragment {
      * 懒加载
      */
     protected abstract void loadData();
+
+    /**
+     * 判断是否有网
+     *
+     * @return
+     */
+    public boolean getNetIs() {
+        return NetworkUtil.isNetworkConnected(getContext());
+    }
 
     // 封装公共的添加Fragment的方法
     public void addFragment(Class<? extends SupportFragment> zClass, int layoutId) {
@@ -164,15 +177,60 @@ public abstract class SupportFragment extends RxFragment {
 
     }
 
+    public interface GetDataCallBack {
+        void canGetData();
+
+        void noNetWork();
+    }
+
+    public void getData(GetDataCallBack callBack) {
+        if (getNetIs()) {
+            callBack.canGetData();
+        } else {
+            Toast.makeText(mBaseActivity, "网络无法连接，请检查网络重试", Toast.LENGTH_SHORT).show();
+            callBack.noNetWork();
+        }
+    }
+
+
+    public interface LoadCallBack {
+        void onLoadMore();
+
+        void onRefresh();
+
+        void onFirst();
+    }
+
+    public void loadFinishCallBack(@LoadType int loadType, LoadCallBack callBack) {
+        switch (loadType) {
+            case LoadType.FRIST:
+                callBack.onFirst();
+                break;
+            case LoadType.LOADMORE:
+                callBack.onLoadMore();
+                break;
+            case LoadType.REFRESH:
+                callBack.onRefresh();
+                break;
+        }
+    }
+
+
     public void startActivity(Class<? extends Activity> zClass, Bundle bundle) {
-        if (mBaseStateActivity != null) {
-            mBaseStateActivity.startActivity(zClass, bundle);
+        if (mBaseActivity != null) {
+            mBaseActivity.startActivity(zClass, bundle);
+        }
+    }
+
+    public void startActivity(Class<? extends Activity> zClass, int type, String key) {
+        if (mBaseActivity != null) {
+            mBaseActivity.startActivity(zClass, type, key);
         }
     }
 
     public void startActivity(Class<? extends Activity> zClass) {
-        if (mBaseStateActivity != null) {
-            mBaseStateActivity.startActivity(zClass);
+        if (mBaseActivity != null) {
+            mBaseActivity.startActivity(zClass);
         }
     }
 
@@ -183,8 +241,8 @@ public abstract class SupportFragment extends RxFragment {
 
     public void closeActivity() {
 
-        if (mBaseStateActivity != null) {
-            mBaseStateActivity.finish();
+        if (mBaseActivity != null) {
+            mBaseActivity.finish();
         }
     }
 
@@ -192,8 +250,8 @@ public abstract class SupportFragment extends RxFragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mFragmentManager = getChildFragmentManager();
-        if (activity instanceof StateActivity) {
-            mBaseStateActivity = (StateActivity) activity;
+        if (activity instanceof SupportActivity) {
+            mBaseActivity = (SupportActivity) activity;
         }
 
     }
@@ -238,13 +296,20 @@ public abstract class SupportFragment extends RxFragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mBaseStateActivity = null;
+        mBaseActivity = null;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        OkHttpUtils.getInstance().cancleOkhttpTag(this.getClass().toString());
-
+    protected boolean onBtClick(){
+       return ButtonUtils.onClick();
     }
+
+    public Boolean isSuccess(int code) {
+        if (code == 200) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 }

@@ -55,33 +55,6 @@
         <attr name="text_color2" format="color" />
         <attr name="item_bg" format="reference|color" />
     </declare-styleable>
-    <declare-styleable name="RoundedImageView">
-        <attr name="riv_corner_radius" format="dimension" />
-        <attr name="riv_corner_radius_top_left" format="dimension" />
-        <attr name="riv_corner_radius_top_right" format="dimension" />
-        <attr name="riv_corner_radius_bottom_left" format="dimension" />
-        <attr name="riv_corner_radius_bottom_right" format="dimension" />
-        <attr name="riv_border_width" format="dimension" />
-        <attr name="riv_border_color" format="color" />
-        <attr name="riv_mutate_background" format="boolean" />
-        <attr name="riv_oval" format="boolean" />
-        <attr name="android:scaleType" />
-        <attr name="riv_tile_mode">
-            <enum name="clamp" value="0" />
-            <enum name="repeat" value="1" />
-            <enum name="mirror" value="2" />
-        </attr>
-        <attr name="riv_tile_mode_x">
-            <enum name="clamp" value="0" />
-            <enum name="repeat" value="1" />
-            <enum name="mirror" value="2" />
-        </attr>
-        <attr name="riv_tile_mode_y">
-            <enum name="clamp" value="0" />
-            <enum name="repeat" value="1" />
-            <enum name="mirror" value="2" />
-        </attr>
-    </declare-styleable>
 
     <declare-styleable name="SwipeLayout">
         <attr name="swipeDirection" format="enum">
@@ -97,14 +70,23 @@
     </declare-styleable>
 
 
-    <declare-styleable name="viewpagergallery">
+    <declare-styleable name="ViewPagerGallery">
         <attr name="isShadow" format="boolean"/>
     </declare-styleable>
+
+
+
     <declare-styleable name="ZQImageViewRoundOval">
         <attr name="ImageType">
             <enum name="circle" value="0" />
             <enum name="round" value="1" />
         </attr>
         <attr name="roundRadios" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="CircleProgressTv">
+        <attr name="in_circle_color" format="color"/>
+        <attr name="out_ring_color" format="color"/>
+
     </declare-styleable>
 </resources>

@@ -10,7 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Toast;
 
-import com.base.gyh.baselib.base.StateFragment;
+import com.base.gyh.baselib.base.fragment.StateFragment;
 import com.base.gyh.baselib.utils.PermissUtils;
 import com.base.gyh.baselib.widgets.view.ZQImageViewRoundOval;
 import com.lxj.xpopup.XPopup;
@@ -202,6 +202,15 @@ public class MineFragment extends StateFragment {
         });
     }
 
+    @Override
+    public void onEmptyRetryClicked() {
+
+    }
+
+    @Override
+    public void onErrorRetryClicked() {
+
+    }
 
 
     public class ViewHolder {

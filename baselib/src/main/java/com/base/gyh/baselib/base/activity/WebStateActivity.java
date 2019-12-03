@@ -1,4 +1,4 @@
-package com.base.gyh.baselib.base;
+package com.base.gyh.baselib.base.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;

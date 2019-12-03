@@ -1,36 +1,32 @@
-package com.base.gyh.baselib.base;
+package com.base.gyh.baselib.base.fragment;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
 import com.base.gyh.baselib.R;
 import com.base.gyh.baselib.annotation.StateType;
-import com.base.gyh.baselib.widgets.dialog.pop.LoadingPop;
 import com.base.gyh.baselib.widgets.netstatae.NetStateLayout;
+import com.base.gyh.baselib.widgets.netstatae.SimpleNetEmptyView;
+import com.base.gyh.baselib.widgets.netstatae.SimpleNetErrorView;
+import com.base.gyh.baselib.widgets.netstatae.SimpleNetLoadingView;
 import com.base.gyh.baselib.widgets.view.MyToolbar;
-import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.core.BasePopupView;
-import com.trello.rxlifecycle2.components.support.RxFragment;
-import java.util.List;
+
 import static com.base.gyh.baselib.annotation.StateType.EMPTY;
 import static com.base.gyh.baselib.annotation.StateType.ERROR;
 import static com.base.gyh.baselib.annotation.StateType.LOADING;
 import static com.base.gyh.baselib.annotation.StateType.NORMAL;
 
+
 /*
  * created by taofu on 2018/11/28
  **/
-public abstract class StateFragment extends SupportFragment {
+public abstract class StateFragment extends BaseFragment implements NetStateLayout.OnEmptyAndErrorRetryClickListener {
     public ReloadAndEmptyListener reloadAndEmptyListener;
     private View view;
     private LinearLayout mRootBaseView;//根布局
@@ -48,6 +44,11 @@ public abstract class StateFragment extends SupportFragment {
         netStateLayout = view.findViewById(R.id.netStateLayout);
         myToolbar = view.findViewById(R.id.activity_base_toolBar);
         myToolbar.setVisibility(View.GONE);
+        netStateLayout.setNetLoadingView(new SimpleNetLoadingView());
+        netStateLayout.setNetErrorView(new SimpleNetErrorView());
+        netStateLayout.setNetEmptyView(new SimpleNetEmptyView());
+        netStateLayout.setOnEmptyAndErrorRetryClickListener(this);
+
     }
 
     /**
@@ -78,6 +79,47 @@ public abstract class StateFragment extends SupportFragment {
 
 
     /**
+     * 更改布局状态
+     */
+    protected void showEmpty() {
+        hideNormal();
+        changePageState(EMPTY);
+    }
+    //
+    protected void showEmpty2(){
+        showNormal();
+        changePageState(EMPTY);
+    }
+
+    protected void showError() {
+        hideNormal();
+        changePageState(ERROR);
+    }
+    protected void showError2(){
+        showNormal();
+        changePageState(ERROR);
+    }
+
+    protected void showNormal() {
+        mRootBaseView.setVisibility(View.VISIBLE);
+        changePageState(NORMAL);
+    }
+
+    protected void showLoad() {
+        hideNormal();
+        changePageState(LOADING);
+    }
+    protected void showLoad2() {
+        showNormal();
+        changePageState(LOADING);
+    }
+
+    protected void hideNormal() {
+        mRootBaseView.setVisibility(View.GONE);
+    }
+
+
+    /**
      * 切换页面的布局
      *
      * @param stateType 页面状态 NORMAL  EMPTY  ERROR LOADING
@@ -86,12 +128,12 @@ public abstract class StateFragment extends SupportFragment {
         if (netStateLayout.getVisibility() == View.GONE) {
             netStateLayout.setVisibility(View.VISIBLE);
         }
-        if (stateType == NORMAL) {
-            mRootBaseView.setVisibility(View.VISIBLE);
-        } else {
-            mRootBaseView.setVisibility(View.GONE);
-
-        }
+//        if (stateType == NORMAL) {
+//            mRootBaseView.setVisibility(View.VISIBLE);
+//        } else {
+//            mRootBaseView.setVisibility(View.GONE);
+//
+//        }
         switch (stateType) {
             case NORMAL:
                 netStateLayout.setContentState(NetStateLayout.CONTENT_STATE_HIDE);
@@ -125,40 +167,11 @@ public abstract class StateFragment extends SupportFragment {
     }
 
 
-    private void initMyListener() {
-        netStateLayout.setOnEmptyAndErrorRetryClickListener(new NetStateLayout.OnEmptyAndErrorRetryClickListener() {
-            @Override
-            public void onEmptyRetryClicked() {
-                reloadAndEmptyListener.emptyClickListener();
-            }
-
-            @Override
-            public void onErrorRetryClicked() {
-                reloadAndEmptyListener.reloadClickListener();
-            }
-        });
-    }
-
     @LayoutRes
     protected abstract int getLayoutRes();
 
-    /**
-     * 判断懒加载条件
-     *
-     * @param forceUpdate 强制更新，好像没什么用？
-     */
-    public void prepareFetchData(boolean forceUpdate) {
-        if (isVisibleToUser && isViewInitiated && (!isDataInitiated || forceUpdate)) {
-            loadData();
-            isDataInitiated = true;
-        }
-    }
-
-    /**
-     * 懒加载
-     */
-    protected abstract void loadData();
     protected abstract void initView(View view);
+
     protected abstract void initListener();
 
 
@@ -177,20 +190,13 @@ public abstract class StateFragment extends SupportFragment {
         //提供View 相关操作的方法
         initView(view);
         //取消ToolBar 展示  可以在子类中打开
-        initTitleBar(false,false,"");
+        initTitleBar(false, false, "");
         //初始化 Error 和Empty的 布局点击监听
         //提供监听方法
         initListener();
         return this.view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        isViewInitiated = true;
-        //加载数据
-        prepareFetchData();
-    }
 
     @Override
     public void onDetach() {

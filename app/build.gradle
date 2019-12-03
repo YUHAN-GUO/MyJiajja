@@ -20,6 +20,30 @@ android {
         sourceCompatibility 1.8
         targetCompatibility 1.8
     }
+
+
+    flavorDimensions "mark" //相当于一个标记
+    productFlavors {
+        yyb { dimension "mark" }
+//        xiaomi { dimension "mark" }
+//        oppo { dimension "mark" }
+//        vivo { dimension "mark" }
+//        "360m" { dimension "mark" }
+//        baidu { dimension "mark" }
+//        huawei { dimension "mark" }
+//        meizu { dimension "mark" }
+//        ali { dimension "mark" }
+    }
+
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            // abc_渠道名_版本名.apk  还可以拼接其他app内容：variant.versionCode  variant.buildType.name
+            outputFileName = "你的项目名称_${variant.name}_${variant.versionName}_${new Date().format("yyyy-MM-dd")}.apk"
+        }
+    }
 }
 
 dependencies {

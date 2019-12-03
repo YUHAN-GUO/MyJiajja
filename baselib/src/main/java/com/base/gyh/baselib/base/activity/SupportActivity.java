@@ -1,11 +1,10 @@
-package com.base.gyh.baselib.base;
+package com.base.gyh.baselib.base.activity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,12 +14,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.KeyEvent;
-import android.view.View;
+import android.widget.Toast;
 
-import com.base.gyh.baselib.R;
 import com.base.gyh.baselib.broadcast.NetBroadcastReceiver;
-import com.base.gyh.baselib.data.remote.okhttp.OkHttpUtils;
 import com.base.gyh.baselib.utils.ActivityUtil;
+import com.base.gyh.baselib.utils.ButtonUtils;
 import com.base.gyh.baselib.utils.NetworkUtil;
 import com.base.gyh.baselib.utils.RlvMangerUtil;
 import com.base.gyh.baselib.widgets.dialog.pop.LoadingPop;
@@ -52,6 +50,10 @@ public abstract class SupportActivity extends RxAppCompatActivity implements Net
 
     // 封装公共的添加Fragment的方法
     public void addFragment(Class<? extends Fragment> zClass, int layoutId) {
+        addFragment(zClass, layoutId, null);
+    }
+
+    public void addFragment(Class<? extends Fragment> zClass, int layoutId, Bundle bundle) {
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
         String tag = zClass.getName();
 
@@ -59,6 +61,9 @@ public abstract class SupportActivity extends RxAppCompatActivity implements Net
         Fragment fragment = mFragmentManager.findFragmentByTag(tag);
 
         if (fragment != null) { // 如果存在就不用重新创建
+            if (bundle != null) {
+                fragment.setArguments(bundle);
+            }
             if (fragment.isAdded()) { // 如果 fragment 已经被添加
                 if (fragment.isHidden()) { // 如果fragment 已经被添加，并且处于隐藏状态，那么显示
                     transaction.show(fragment); // 显示 fragment
@@ -72,6 +77,9 @@ public abstract class SupportActivity extends RxAppCompatActivity implements Net
             // 如果没有从fragmentManager 中通过tag 找到fragment,那么创建一个新的fragment 实例
             try {
                 fragment = zClass.newInstance();
+                if (bundle != null) {
+                    fragment.setArguments(bundle);
+                }
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
@@ -106,12 +114,22 @@ public abstract class SupportActivity extends RxAppCompatActivity implements Net
     public GridLayoutManager getGridLayoutManager(int spanCount){
         return RlvMangerUtil.getInstance().getGridLayoutManager(this,spanCount);
     }
-
-    protected void startActivity(Class<? extends Activity> zClass) {
+    public void startActivity(Class<? extends Activity> zClass) {
         startActivity(new Intent(this, zClass));
     }
 
-    protected void startActivity(Class<? extends Activity> zClass, Bundle bundle) {
+    public void startActivity(Class<? extends Activity> zClass, int type, String key) {
+        Intent intent = new Intent(this, zClass);
+        intent.putExtra(key, type);
+        startActivity(intent);
+    }
+    protected void startActivity(Class<? extends Activity> zClass, boolean type, String key) {
+        Intent intent = new Intent(this, zClass);
+        intent.putExtra(key, type);
+        startActivity(intent);
+    }
+
+    public void startActivity(Class<? extends Activity> zClass, Bundle bundle) {
         startActivity(new Intent(this, zClass).putExtras(bundle));
     }
 
@@ -121,6 +139,19 @@ public abstract class SupportActivity extends RxAppCompatActivity implements Net
 
     protected void startActivityForResult(Class<? extends Activity> zClass, Bundle bundle, int coode) {
         startActivityForResult(new Intent(this, zClass).putExtras(bundle), coode);
+    }
+
+    public interface CanDataCallBack{
+        void onCanData();
+        void onNoNet();
+    }
+    public void canGetData(CanDataCallBack callBack){
+        if (NetworkUtil.isNetworkConnected(this)){
+            callBack.onCanData();
+        }else{
+            Toast.makeText(this, "没有网络，请重试", Toast.LENGTH_SHORT).show();
+            callBack.onNoNet();
+        }
     }
 
     @Override
@@ -165,14 +196,6 @@ public abstract class SupportActivity extends RxAppCompatActivity implements Net
         ActivityUtil.getInstance().exitSystem();
     }
 
-    /**
-     * 获取网络类型
-     *
-     * @return
-     */
-    public int getNetType() {
-        return NetworkUtil.getNetworkType(this);
-    }
 
     /**
      * 判断是否有网
@@ -195,21 +218,31 @@ public abstract class SupportActivity extends RxAppCompatActivity implements Net
         }
         loadingPop.toggle();
     }
-
-
-
+    public void toggleLoading(boolean is) {
+        if (loadingPop == null) {
+            loadingPop = new XPopup.Builder(SupportActivity.this)
+                    .dismissOnBackPressed(false) // 按返回键是否关闭弹窗，默认为true
+                    .dismissOnTouchOutside(false) // 点击外部是否关闭弹窗，默认为true
+                    .asCustom(new LoadingPop(SupportActivity.this));
+        }
+        if (is){
+            loadingPop.show();
+        }else{
+            loadingPop.dismiss();
+        }
+    }
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //注意：这里的setContentView必须有super才可以，需要走父类方法
-        super.setContentView(R.layout.activity_base);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getWindow().getDecorView()
-                    .setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        }
+//        super.setContentView(R.layout.activity_base);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            getWindow().getDecorView()
+//                    .setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                            | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+//        }
         // 添加到Activity工具类
         ActivityUtil.getInstance().addActivity(this);
         // 初始化netEvent
@@ -233,12 +266,28 @@ public abstract class SupportActivity extends RxAppCompatActivity implements Net
     @Override
     protected void onDestroy() {
         // Activity销毁时，提示系统回收
-        // System.gc();
+        // System.gc();K
         netEvent = null;
         // 移除Activity
         ActivityUtil.getInstance().removeActivity(this);
         NetBroadcastReceiver.unregisterReceiver(this);//网络变化
-        OkHttpUtils.getInstance().cancleOkhttpTag(this.getClass().toString());
         super.onDestroy();
     }
+
+    /**
+     * 防暴力点击
+     * @return
+     */
+    protected boolean onBtClick(){
+        return ButtonUtils.onClick();
+    }
+
+    public Boolean isSuccess(int code){
+        if (code == 200){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 }

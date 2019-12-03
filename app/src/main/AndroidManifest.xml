@@ -35,6 +35,10 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+        <!--渠道配置-->
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}" /> <!-- 三方集成 -->
 
         <activity android:name="com.think.guoyh.ui.activity.MainActivity"></activity>
         <activity android:name="com.think.guoyh.ui.activity.SplashActivity">
