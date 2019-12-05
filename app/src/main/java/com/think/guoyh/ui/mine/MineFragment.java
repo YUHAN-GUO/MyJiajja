@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.base.gyh.baselib.base.fragment.StateFragment;
 import com.base.gyh.baselib.utils.PermissUtils;
-import com.base.gyh.baselib.widgets.view.ZQImageViewRoundOval;
+import com.base.gyh.baselib.widgets.view.RoundImageView;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 
@@ -215,11 +215,11 @@ public class MineFragment extends StateFragment {
 
     public class ViewHolder {
         public View rootView;
-        public ZQImageViewRoundOval mine_heard;
+        public RoundImageView mine_heard;
 
         public ViewHolder(View rootView) {
             this.rootView = rootView;
-            this.mine_heard = (ZQImageViewRoundOval) rootView.findViewById(R.id.mine_heard);
+            this.mine_heard = (RoundImageView) rootView.findViewById(R.id.mine_heard);
         }
 
     }

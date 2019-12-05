@@ -7,7 +7,7 @@
     tools:context="com.think.guoyh.ui.mine.MineFragment">
 
 
-    <com.base.gyh.baselib.widgets.view.ZQImageViewRoundOval
+    <com.base.gyh.baselib.widgets.view.RoundImageView
         android:id="@+id/mine_heard"
         android:layout_width="@dimen/dp_70"
         android:layout_height="@dimen/dp_70"

@@ -76,7 +76,7 @@
 
 
 
-    <declare-styleable name="ZQImageViewRoundOval">
+    <declare-styleable name="RoundImageView">
         <attr name="ImageType">
             <enum name="circle" value="0" />
             <enum name="round" value="1" />
