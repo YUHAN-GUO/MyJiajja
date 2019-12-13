@@ -10,18 +10,18 @@
     <attr name="cpSearchCursorDrawable" format="reference" />
     <attr name="cpListItemTextSize" format="dimension|reference" />
     <attr name="cpListItemTextColor" format="color|reference" />
-    <attr name="cpListItemHeight" format="dimension|reference"/>
+    <attr name="cpListItemHeight" format="dimension|reference" />
     <attr name="cpEmptyIcon" format="reference" tools:ignore="MissingDefaultResource" />
-    <attr name="cpEmptyIconWidth" format="dimension|reference"/>
-    <attr name="cpEmptyIconHeight" format="dimension|reference"/>
-    <attr name="cpEmptyText" format="string|reference"/>
-    <attr name="cpEmptyTextSize" format="dimension|reference"/>
-    <attr name="cpEmptyTextColor" format="color|reference"/>
+    <attr name="cpEmptyIconWidth" format="dimension|reference" />
+    <attr name="cpEmptyIconHeight" format="dimension|reference" />
+    <attr name="cpEmptyText" format="string|reference" />
+    <attr name="cpEmptyTextSize" format="dimension|reference" />
+    <attr name="cpEmptyTextColor" format="color|reference" />
 
-    <attr name="cpGridItemBackground" format="color|reference"/>
-    <attr name="cpGridItemSpace" format="reference"/>
+    <attr name="cpGridItemBackground" format="color|reference" />
+    <attr name="cpGridItemSpace" format="reference" />
 
-    <attr name="cpSectionHeight" format="reference"/>
+    <attr name="cpSectionHeight" format="reference" />
     <attr name="cpSectionTextSize" format="reference" />
     <attr name="cpSectionTextColor" format="reference" />
     <attr name="cpSectionBackground" format="reference" />
@@ -30,20 +30,27 @@
     <attr name="cpIndexBarNormalTextColor" format="reference" />
     <attr name="cpIndexBarSelectedTextColor" format="reference" />
 
-    <attr name="cpOverlayWidth" format="dimension|reference"/>
-    <attr name="cpOverlayHeight" format="dimension|reference"/>
-    <attr name="cpOverlayTextSize" format="dimension|reference"/>
-    <attr name="cpOverlayTextColor" format="color|reference"/>
-    <attr name="cpOverlayBackground" format="color|reference"/>
+    <attr name="cpOverlayWidth" format="dimension|reference" />
+    <attr name="cpOverlayHeight" format="dimension|reference" />
+    <attr name="cpOverlayTextSize" format="dimension|reference" />
+    <attr name="cpOverlayTextColor" format="color|reference" />
+    <attr name="cpOverlayBackground" format="color|reference" />
+
     <declare-styleable name="MyToolbar">
-        <attr name="isShowMenu" format="boolean"/>
-        <attr name="backIcon" format="integer"/>
+        <attr name="isShowMenu" format="boolean" />
+        <attr name="isShowBack" format="boolean" />
+        <attr name="leftIcon" format="reference" />
+        <attr name="rightIcon" format="reference" />
+        <attr name="myToolBarTitle" format="string" />
+        <attr name="backgroundColor" format="reference|color" />
+        <attr name="backgroundDrawable" format="reference|color" />
     </declare-styleable>
+
     <declare-styleable name="NetStateLayout">
         <attr name="net_error" format="string" />
         <attr name="net_loading" format="string" />
         <attr name="net_empty" format="string" />
-        <attr name="content_id" format="reference"/>
+        <attr name="content_id" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="TabMenu">
@@ -71,9 +78,8 @@
 
 
     <declare-styleable name="ViewPagerGallery">
-        <attr name="isShadow" format="boolean"/>
+        <attr name="isShadow" format="boolean" />
     </declare-styleable>
-
 
 
     <declare-styleable name="RoundImageView">
@@ -81,12 +87,12 @@
             <enum name="circle" value="0" />
             <enum name="round" value="1" />
         </attr>
-        <attr name="roundRadios" format="dimension"/>
+        <attr name="roundRadios" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="CircleProgressTv">
-        <attr name="in_circle_color" format="color"/>
-        <attr name="out_ring_color" format="color"/>
+        <attr name="in_circle_color" format="color" />
+        <attr name="out_ring_color" format="color" />
 
     </declare-styleable>
 </resources>

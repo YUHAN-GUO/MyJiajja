@@ -2,6 +2,7 @@ package com.base.gyh.baselib.widgets.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.base.gyh.baselib.R;
+import com.base.gyh.baselib.utils.mylog.Logger;
 
 /**
  * Created by GUOYH on 2019/5/24.
@@ -21,8 +23,11 @@ public class MyToolbar extends Toolbar implements View.OnClickListener {
     private Context context;
     private String text ="Title";
     private boolean aBoolean;
+    private Drawable leftIcon;
+    private Drawable rightIcon;
+    private int backgroundColor;
     private ViewHolder holder;
-
+    private boolean isVis = true;
     public  void setTitleText(String text){
         this.text = text;
         init(context, aBoolean);
@@ -49,6 +54,10 @@ public class MyToolbar extends Toolbar implements View.OnClickListener {
         this.context = context;
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MyToolbar);
         aBoolean = typedArray.getBoolean(R.styleable.MyToolbar_isShowMenu, true);
+        isVis = typedArray.getBoolean(R.styleable.MyToolbar_isShowBack, true);
+        leftIcon = typedArray.getDrawable(R.styleable.MyToolbar_leftIcon);
+        rightIcon = typedArray.getDrawable(R.styleable.MyToolbar_rightIcon);
+        text = typedArray.getString(R.styleable.MyToolbar_myToolBarTitle);
         typedArray.recycle();
         init(context, aBoolean);
     }
@@ -58,8 +67,18 @@ public class MyToolbar extends Toolbar implements View.OnClickListener {
         View view = LayoutInflater.from(context).inflate(R.layout.mytoolbar, this, true);
         holder = new ViewHolder(view);
         holder.my_toolbar_menu.setVisibility(isShowMenu ? View.VISIBLE : View.INVISIBLE);
+//        Logger.d("%s++++++++++++%s","guoyh",bBoolean);
+        holder.my_toolbar_back.setVisibility(isVis ? View.VISIBLE : View.INVISIBLE);
         holder.my_toolbar_back.setOnClickListener(this);
-        holder.my_toolbar_title.setText(text);
+        if (text!=null){
+            holder.my_toolbar_title.setText(text);
+        }
+        if (rightIcon != null){
+            holder.my_toolbar_menu.setImageDrawable(rightIcon);
+        }
+        if (leftIcon!=null){
+            holder.my_toolbar_back.setImageDrawable(leftIcon);
+        }
         holder.my_toolbar_menu.setOnClickListener(this);
     }
 
@@ -73,7 +92,6 @@ public class MyToolbar extends Toolbar implements View.OnClickListener {
                 onBreakOrMenuClickListener.onClick(MENU);
             }
         }
-
     }
 
 
@@ -83,11 +101,25 @@ public class MyToolbar extends Toolbar implements View.OnClickListener {
         this.onBreakOrMenuClickListener = onBreakOrMenuClickListener;
     }
 
+    public void setLeftIcon() {
+
+    }
+
+    public void setLeftIconVis(boolean b) {
+        this.isVis = b;
+        init(context, aBoolean);
+    }
+
+    public void setRightIconVis(int gone) {
+        Logger.d("%s++++++++++%s","guoyh",gone == View.VISIBLE);
+        init(context, gone== View.VISIBLE);
+    }
+
     public interface OnBreakOrMenuClickListener {
         void onClick(int type);
     }
 
-    public static class ViewHolder {
+    private static class ViewHolder {
         public View rootView;
         public TextView my_toolbar_title;
         public ImageView my_toolbar_back;
