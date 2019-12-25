@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 
 import com.think.guoyh.R;
 import com.base.gyh.baselib.utils.BitmapUtil;
+import com.think.guoyh.base.MyStateFragment;
 import com.think.guoyh.utils.HeardSelecterUtil;
 import com.think.guoyh.utils.SDCardUtils;
 import com.think.guoyh.widget.pop.center.SetHeardPop;
@@ -29,7 +30,7 @@ import com.think.guoyh.widget.pop.center.SetHeardPop;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MineFragment extends StateFragment {
+public class MineFragment extends MyStateFragment {
     /* 请求识别码 */
     private static final int CODE_GALLERY_REQUEST = 0xa0;
     private static final int CODE_CAMERA_REQUEST = 0xa1;

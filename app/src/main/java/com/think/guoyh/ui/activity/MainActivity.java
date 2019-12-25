@@ -1,6 +1,8 @@
 package com.think.guoyh.ui.activity;
 
 
+import android.support.v4.content.ContextCompat;
+
 import com.base.gyh.baselib.utils.mylog.Logger;
 
 import java.util.List;
@@ -34,6 +36,6 @@ public class MainActivity extends MainStateActivity {
 
     @Override
     protected void setSelecterTvColor(TabMenu tvMenu) {
-
+        tvMenu.setItemTextColor(ContextCompat.getColor(this,R.color.color_blue),ContextCompat.getColor(this,R.color.color_black));
     }
 }

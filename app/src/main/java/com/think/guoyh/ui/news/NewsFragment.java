@@ -6,12 +6,13 @@ import android.view.View;
 
 import com.base.gyh.baselib.base.fragment.StateFragment;
 import com.think.guoyh.R;
+import com.think.guoyh.base.MyStateFragment;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NewsFragment extends StateFragment {
+public class NewsFragment extends MyStateFragment {
 
 
     public NewsFragment() {
